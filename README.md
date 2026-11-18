@@ -53,6 +53,26 @@ Every load/store goes through a tracer that records the real address (offset in 
 filters it through a 256 KB 8-way LRU write-allocate cache, and writes only the misses as DRAM requests.
 Timing: 2 CPU cycles per access, 4 CPU cycles per memory-clock cycle. Writebacks are not modeled.
 
+## Results at a glance
+Streaming + random-access mix, own simulator (`results/mixes.csv`, `results/T_sweep.csv`):
+
+| policy | streaming slowdown | random slowdown | unfairness | throughput (req/cycle) |
+|---|---:|---:|---:|---:|
+| FIFO | 2.50x | 1.76x | 1.42 | 0.071 |
+| FR-FCFS | 1.00x | 1.78x | 1.77 | 0.109 |
+| Fair (T = 500) | 1.59x | 1.77x | 1.12 | 0.109 |
+
+FR-FCFS gets its throughput by letting the streaming program run as if it were alone. A waiting-time limit of
+T = 500 cycles brings unfairness from 1.77 down to 1.12 at the same throughput, but it does so by slowing the
+streamer; the random-access program is not helped. T matters: at T = 1000 unfairness is back to 1.46, and
+from T = 2000 the policy behaves exactly like FR-FCFS.
+
+![Per-program slowdown in the streaming + random mix](results/fig_slowdown.png)
+![Unfairness and throughput as T varies](results/fig_T_sweep.png)
+
+The same policies were then added to Ramulator, a cycle-accurate DRAM simulator, and rerun there with a
+second fairness policy: see [`ramulator_project/`](ramulator_project/README.md).
+
 ## Known limitations
 One set of recorded traces (the programs use a fixed pseudo-random seed). A program that finishes early is
 not slowed afterwards, so equal-length runs would be a better slowdown measure. No SPEC traces.
