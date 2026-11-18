@@ -1,5 +1,7 @@
 # DRAM scheduling simulator
 
+[![CI](https://github.com/smfardeen7/DRAM-scheduling/actions/workflows/ci.yml/badge.svg)](https://github.com/smfardeen7/DRAM-scheduling/actions/workflows/ci.yml)
+
 Balancing Row-Buffer Locality and Fairness in Multi-Program DRAM Scheduling.
 One memory channel, N banks, one row buffer per bank, a request queue, and three policies:
 **FIFO**, **FR-FCFS**, and **FAIR** (FR-FCFS plus a waiting-time limit T).
