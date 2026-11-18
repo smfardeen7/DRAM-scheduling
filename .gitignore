@@ -1,0 +1,11 @@
+.DS_Store
+dramsim
+record_traces
+traces/
+__pycache__/
+ramulator/obj/
+ramulator/ramulator
+ramulator_project/cache/
+ramulator_project/traces/
+__pycache__/
+*.dSYM/
